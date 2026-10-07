@@ -1,316 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ABD Queue">
-<meta name="theme-color" content="#070914">
-<title>ABD Workspace | Project Queue and Notes</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Workspace</title>
 <style>
-:root{--h1:18;--h2:348;--a:hsl(var(--h1) 80% 38%);--b:hsl(var(--h2) 70% 46%);--bg:hsl(var(--h1) 45% 96%);--card:#fff;--text:hsl(var(--h1) 40% 10%);--mut:hsl(var(--h1) 14% 38%);--line:hsl(var(--h1) 30% 20% / .14);--on:#fff;--ok:#16a066;--warn:#d9822b;--bad:#d64545;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--a:hsl(var(--h1) 95% 62%);--b:hsl(var(--h2) 90% 68%);--bg:hsl(var(--h1) 34% 6%);--card:hsl(var(--h1) 30% 92% / .07);--text:hsl(var(--h1) 45% 96%);--mut:hsl(var(--h1) 15% 68%);--line:hsl(var(--h1) 30% 92% / .13);--on:hsl(var(--h1) 60% 7%)}}
-:root[data-theme="dark"]{--a:hsl(var(--h1) 95% 62%);--b:hsl(var(--h2) 90% 68%);--bg:hsl(var(--h1) 34% 6%);--card:hsl(var(--h1) 30% 92% / .07);--text:hsl(var(--h1) 45% 96%);--mut:hsl(var(--h1) 15% 68%);--line:hsl(var(--h1) 30% 92% / .13);--on:hsl(var(--h1) 60% 7%)}
-:root[data-pal="aurora"]{--h1:158;--h2:46}:root[data-pal="orchid"]{--h1:292;--h2:250}:root[data-pal="ocean"]{--h1:212;--h2:188}:root[data-pal="citrus"]{--h1:78;--h2:38}
-html{scroll-padding-top:calc(76px + env(safe-area-inset-top,0px))}
-*,*::before,*::after{box-sizing:inherit;-webkit-tap-highlight-color:transparent}
-[hidden]{display:none!important}
-body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;-webkit-text-size-adjust:100%;overflow-x:hidden}
-button,input,textarea{font:inherit;color:inherit}
-button{cursor:pointer;touch-action:manipulation}
-.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;align-items:center;gap:10px;padding:12px 16px;background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-.hdr div{margin-right:auto;min-width:0}
-.hdr h1{margin:0;font-size:1.05rem;letter-spacing:-.02em;line-height:1.2}
-.hdr small{display:block;font-size:12px;color:var(--mut)}
-.pbtn{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:99px;background:linear-gradient(110deg,var(--a),var(--b));color:var(--on);font-weight:700;text-decoration:none;font-size:15px;white-space:nowrap}
-.ibtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;padding:0}
-main{max-width:640px;margin:auto;padding:16px 16px 170px}
-.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:14px;background:var(--card);border:1px solid var(--line);margin-bottom:16px}
-.seg button{border:0;background:none;padding:10px 2px;border-radius:10px;font-weight:600;font-size:13.5px;color:var(--mut)}
-.seg .on{background:linear-gradient(110deg,var(--a),var(--b));color:var(--on)}
-.it{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
-.r1{display:flex;gap:10px;justify-content:space-between;align-items:flex-start}
-.r1 b{font-size:1.05rem}
-.tag{font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid currentColor;white-space:nowrap}
-.p-High{color:var(--bad)}.p-Medium{color:var(--warn)}.p-Low{color:var(--ok)}
-.meta{color:var(--mut);font-size:13.5px;margin:4px 0}
-.meta .bad{color:var(--bad);font-weight:600}
-.nt{margin:8px 0 0;color:var(--mut);font-size:14.5px;white-space:pre-wrap;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.acts button{min-height:40px;padding:0 15px;border-radius:12px;border:1px solid var(--line);background:none;font-weight:600;font-size:14px}
-.acts .p{background:var(--a);color:var(--on);border-color:transparent}
-.acts button:disabled{opacity:.35}
-.mv{margin-left:auto;display:flex;gap:6px}
-.empty{text-align:center;color:var(--mut);padding:44px 10px}
-.tip{text-align:center;color:var(--mut);font-size:13px;margin-top:24px}
-.fab{position:fixed;right:16px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:12;min-height:52px;padding:0 22px;border:0;border-radius:99px;background:linear-gradient(110deg,var(--a),var(--b));color:var(--on);font-weight:700;font-size:16px;box-shadow:0 14px 30px -10px var(--b)}
-.tabs{position:fixed;left:0;right:0;bottom:0;z-index:12;display:grid;grid-template-columns:1fr 1fr;padding:6px 12px calc(6px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
-.tabs button{border:0;background:none;min-height:48px;font-weight:600;font-size:15px;color:var(--mut)}
-.tabs .on{color:var(--text);box-shadow:inset 0 2px 0 var(--a)}
-.nadd{display:grid;gap:10px;margin-bottom:18px}
-.nadd textarea,.f input,.f textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-size:16px}
-.nadd textarea{min-height:96px}
-.pb{min-height:50px;border:0;border-radius:14px;background:linear-gradient(110deg,var(--a),var(--b));color:var(--on);font-weight:700;font-size:16px}
-.nt2{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px}
-.nt2.pin{border-color:var(--a)}
-.nt2 .tx{white-space:pre-wrap;outline:none;min-height:24px;word-break:break-word}
-.nt2 .ft{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:12.5px;color:var(--mut)}
-.nt2 .ft span{margin-right:auto}
-.nt2 .ft button{min-height:36px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:none;font-weight:600;font-size:13px}
-#sh{margin:auto 0 0;width:100%;max-width:none;max-height:90vh;max-height:90dvh;border:0;border-top:1px solid var(--line);border-radius:24px 24px 0 0;background:var(--bg);color:var(--text);padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));overflow:auto}
-#sh::backdrop{background:rgba(3,5,14,.6);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-#sh[open]{animation:up .3s cubic-bezier(.2,.8,.2,1)}
-@keyframes up{from{transform:translateY(40px);opacity:0}}
-.f{display:grid;gap:14px;max-width:560px;margin:auto}
-.f h2{margin:0;font-size:1.3rem}
-.f label,.f .g{display:grid;gap:6px;font-size:13px;color:var(--mut);font-weight:600}
-.f input[type=date]{min-height:48px;-webkit-appearance:none;appearance:none}
-.f textarea{min-height:110px}
-.ch{display:flex;gap:8px;flex-wrap:wrap}
-.ch button{min-height:40px;padding:0 16px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-weight:600;font-size:14px}
-.ch .on{background:var(--a);color:var(--on);border-color:transparent}
-.fb{display:grid;gap:10px;margin-top:4px}
-.fb button:not(.pb){min-height:46px;border-radius:14px;border:1px solid var(--line);background:none;font-weight:600}
-.fb .del{color:var(--bad)}
-.toast{position:fixed;left:50%;top:calc(74px + env(safe-area-inset-top,0px));translate:-50% -10px;z-index:30;padding:10px 18px;border-radius:99px;background:var(--text);color:var(--bg);font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s,translate .25s;max-width:90vw;text-align:center}
-.toast.on{opacity:1;translate:-50% 0}
-.sw{background:linear-gradient(135deg,var(--a),var(--b));border:0}
-body{font-size:17px;line-height:1.55}
-main{max-width:680px;padding:30px 22px 220px}
-.hdr{padding:14px 20px}
-.seg{padding:6px;gap:6px;margin-bottom:28px;border-radius:18px}.seg button{padding:14px 2px;font-size:14.5px;border-radius:13px}
-.it{padding:26px;margin-bottom:22px;border-radius:26px}
-.r1 b{font-size:1.15rem;line-height:1.35}
-.meta{margin:10px 0;font-size:14.5px}
-.nt{margin-top:14px;font-size:15.5px;line-height:1.6}
-.acts{gap:10px;margin-top:22px}.acts button,.acts a{min-height:46px;padding:0 18px;border-radius:14px;font-size:15px}
-.acts a{display:inline-flex;align-items:center;border:1px solid var(--line);font-weight:600;text-decoration:none;color:var(--text)}
-.nt2{padding:22px;margin-bottom:18px;border-radius:22px}
-.nadd{gap:14px;margin-bottom:30px}.nadd textarea{min-height:140px}
-.f{gap:22px}.f input,.f textarea{padding:15px 16px;border-radius:14px}
-#sh{padding:30px 22px calc(30px + env(safe-area-inset-bottom,0px))}
-.tabs{grid-template-columns:repeat(4,1fr)}.tabs button{min-height:54px;font-size:14px}
-.fab{bottom:calc(90px + env(safe-area-inset-bottom,0px));min-height:56px}
-.empty{padding:64px 10px}
-.it h2,.intro h2{margin:0 0 8px;font-size:1.25rem}
-.hint,.intro p{margin:0 0 18px;color:var(--mut);font-size:15px}
-.f2{display:grid;gap:14px}
-.inp{width:100%;min-height:54px;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-size:16px;-webkit-appearance:none;appearance:none}
-.intro{margin-bottom:6px}
-#aqk{margin:6px 0 10px}
-#aqk button,#aq button{min-height:44px;padding:0 16px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-weight:600;font-size:14px}
-#msgs{display:grid;gap:16px;margin:24px 0}
-.bb{max-width:88%;padding:15px 19px;border-radius:22px;white-space:pre-wrap;word-break:break-word;line-height:1.55}
-.bb.user{justify-self:end;background:linear-gradient(110deg,var(--a),var(--b));color:var(--on);border-bottom-right-radius:6px}
-.bb.assistant{background:var(--card);border:1px solid var(--line);border-bottom-left-radius:6px}
-.ibar{position:fixed;left:0;right:0;bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:11;display:flex;gap:10px;padding:12px 20px;max-width:680px;margin:auto;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
-.ibar input{flex:1;min-width:0;min-height:52px;padding:0 18px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:16px}
-.mic,.send{min-height:52px;border-radius:99px;border:0;font-weight:700}
-.mic{width:52px;flex:none;background:var(--card);border:1px solid var(--line);display:grid;place-items:center}
-.mic.on{background:var(--bad);color:#fff;animation:blip 1s infinite}
-@keyframes blip{50%{opacity:.6}}
-.send{padding:0 20px;background:linear-gradient(110deg,var(--a),var(--b));color:var(--on)}
-#al{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;border:0;background:var(--bg);color:var(--text);padding:0}
-#al[open]{display:grid;place-items:center}
-.alc{text-align:center;display:grid;gap:20px;padding:30px;max-width:420px;width:100%}
-.alc h2{margin:0;font-size:2rem;letter-spacing:-.02em}.alc p{margin:0;color:var(--mut)}
-.bell{font-size:76px;animation:shake .6s infinite}
-@keyframes shake{25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
-.alc button:not(.pb){min-height:54px;border-radius:14px;border:1px solid var(--line);background:none;font-weight:600;font-size:16px}
-.wk{position:fixed;left:20px;top:calc(78px + env(safe-area-inset-top,0px));z-index:11;display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:99px;background:var(--card);border:1px solid var(--a);font-size:13px;font-weight:600;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
-.wk i{width:8px;height:8px;border-radius:50%;background:var(--bad);animation:blip 1.2s infinite}
-.eb{position:fixed;left:20px;right:20px;max-width:640px;margin:auto;bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:13;padding:18px 22px;border-radius:22px;background:var(--bg);border:1px solid var(--a);box-shadow:0 20px 50px -20px var(--b);font-size:16px;line-height:1.5;white-space:pre-wrap}
-.eb::before{content:"Eddie";display:block;font-size:12px;font-weight:700;color:var(--a);margin-bottom:4px}
+:root{--bg:#f4f6f9;--panel:#fff;--line:#d9dee6;--text:#1f2933;--muted:#5b6673;--brand:#1f4e8c;--brand-soft:#e8eff8;--ok:#1d7a46;--warn:#9a6700}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",Arial,sans-serif;font-size:15px;line-height:1.5}
+header{background:var(--brand);color:#fff;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+header h1{margin:0;font-size:20px;font-weight:600}
+header small{opacity:.85}
+.clock{text-align:right}
+.clock .time{font-size:22px;font-weight:600}
+.clock .date{font-size:13px;opacity:.9}
+main{max-width:1200px;margin:0 auto;padding:20px;display:grid;grid-template-columns:2fr 1fr;gap:20px}
+@media(max-width:850px){main{grid-template-columns:1fr}}
+section{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:18px;margin-bottom:20px}
+h2{margin:0 0 12px;font-size:16px;font-weight:600;border-bottom:1px solid var(--line);padding-bottom:8px}
+.folders{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.folder{border:1px solid var(--line);background:var(--brand-soft);padding:10px 12px;border-radius:4px}
+.folder{cursor:pointer}
+.folder.active{background:#fff;border-color:var(--brand);border-width:2px;padding:9px 11px}
+.subs{margin-top:12px;border:1px solid var(--line);border-radius:4px;padding:10px 14px;background:var(--bg);font-size:14px}
+.subs ul{margin:6px 0 0;padding-left:20px}
+.folder b{display:block;font-size:14px}
+.folder span{font-size:12px;color:var(--muted)}
+input,select,button{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:4px;background:#fff;color:var(--text)}
+button{background:var(--brand);color:#fff;border-color:var(--brand);cursor:pointer}
+button.alt{background:#fff;color:var(--brand)}
+button.del{background:#fff;color:#b42318;border-color:var(--line);padding:3px 8px;font-size:13px}
+button:focus,input:focus,select:focus{outline:2px solid #7aa2d6}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.row input{flex:1;min-width:130px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+th{background:var(--bg);font-weight:600}
+.tag{padding:2px 8px;border-radius:10px;font-size:12px;background:var(--brand-soft)}
+.Completed{color:var(--ok)}.Pending{color:var(--warn)}
+.timer-display{font-size:40px;font-weight:600;text-align:center;margin:8px 0;font-variant-numeric:tabular-nums}
+.center{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:4px;padding:8px;font:inherit}
+.tablewrap{overflow-x:auto}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:10px 0 24px}
 </style>
 </head>
 <body>
-<header class="hdr">
-<div><h1>Workspace</h1><small id="sync">Saved on this phone</small></div>
-<button class="ibtn sw" id="pal" aria-label="Change color theme"></button>
-<button class="ibtn" id="share" aria-label="Share portfolio link"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3M8 7l4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></button>
-<a class="pbtn" href="https://claude.ai/artifact/Bu7Qb82QH5aSVKyU9NfqhT" target="_blank" rel="noopener">Portfolio</a>
+<header>
+  <div>
+    <h1 id="orgName">My Workspace</h1>
+    <small>Projects, clients and files in one place</small>
+  </div>
+  <div class="clock">
+    <div class="time" id="time"></div>
+    <div class="date" id="date"></div>
+  </div>
 </header>
+
 <main>
-<section id="work"><div class="seg" id="seg"></div><div id="list"></div><p class="tip">Tip: in Safari tap Share, then Add to Home Screen, to open this like an app.</p></section>
-<section id="notes" hidden><div class="nadd"><textarea id="ntext" placeholder="Write a note, idea or reminder"></textarea><button class="pb" id="nadd">Add note</button></div><div id="nlist"></div></section>
-<section id="alarms" hidden>
-<div class="it"><h2>New alarm</h2><div class="f2"><input class="inp" id="at" placeholder="What should I remind you about?" autocomplete="off"><input class="inp" id="aw" type="datetime-local"><div class="ch" id="aq"><button data-m="10">In 10 min</button><button data-m="60">In 1 hour</button><button data-m="tom">Tomorrow 9am</button></div><button class="pb" id="aadd">Set alarm</button></div></div>
-<div class="it"><h2>Claude limit reminder</h2><p class="hint">When you hit your Claude limit, the app shows when it resets. Enter that time here and I will alarm you 1 hour before it resets and again at reset.</p><div class="f2"><input class="inp" id="lw" type="datetime-local"><button class="pb" id="ladd">Remind me 1 hour before</button></div></div>
-<div id="alist"></div>
-<p class="tip">Alarms ring while this app is open. To get an alert when your phone is locked, tap Add to Calendar on an alarm.</p>
-</section>
-<section id="ai" hidden>
-<div class="intro"><h2>Eddie, your AI assistant</h2><p>Eddie can see all your projects, notes and alarms. Ask anything, or tell him what to add. Tap the mic to talk, or turn on "Hi Eddie" and just say it.</p><button class="pb" id="wsw" style="width:100%">Turn on "Hi Eddie"</button><p class="hint" style="margin:12px 0 0">Eddie listens only while this app is open and your screen is on. Say "Hi Eddie" and then your request, for example "Hi Eddie, set an alarm for 6 pm".</p></div>
-<div class="ch" id="aqk"><button>What should I work on today?</button><button>Summarize my notes</button><button>Plan my week</button><button>What is overdue?</button></div>
-<div id="msgs"></div>
-<div class="ibar"><button class="mic" id="amic" aria-label="Talk to the assistant"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg></button><input id="ain" placeholder="Ask Eddie or tell him what to do" autocomplete="off"><button class="send" id="asend">Send</button></div>
-</section>
+  <div>
+    <section>
+      <h2>Workspace folders</h2>
+      <div class="folders" id="folders"></div>
+      <div class="subs" id="subs">Select a folder to see what goes inside it.</div>
+    </section>
+
+    <section>
+      <h2>Projects</h2>
+      <div class="row">
+        <input id="pName" placeholder="Project name">
+        <input id="pClient" placeholder="Client">
+        <input id="pLink" placeholder="Link (GitHub or live site)">
+        <select id="pStatus"><option>In progress</option><option>Pending</option><option>Completed</option></select>
+        <button onclick="addProject()">Add project</button>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Project</th><th>Client</th><th>Status</th><th>Added</th><th>Link</th><th></th></tr></thead>
+          <tbody id="projects"></tbody>
+        </table>
+      </div>
+      <p id="empty" style="color:var(--muted)">No projects yet. Add your first project above.</p>
+    </section>
+    <section>
+      <h2>Hosting and domains</h2>
+      <div class="row">
+        <select id="hType"><option>Domain</option><option>Hosting</option></select>
+        <input id="hName" placeholder="Domain or hosting name">
+        <input id="hProvider" placeholder="Provider (GoDaddy, Hostinger...)">
+        <input id="hLink" placeholder="Link (site or control panel)">
+        <input id="hRenew" type="date" title="Renewal date" style="flex:none">
+        <button onclick="addHost()">Add</button>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Type</th><th>Name</th><th>Provider</th><th>Renewal</th><th>Link</th><th></th></tr></thead>
+          <tbody id="hosts"></tbody>
+        </table>
+      </div>
+      <p id="hEmpty" style="color:var(--muted)">No hosting or domains added yet.</p>
+    </section>
+  </div>
+
+  <div>
+    <section>
+      <h2>Work timer</h2>
+      <div class="row" style="justify-content:center">
+        <input id="mins" type="number" min="1" value="25" style="max-width:90px; flex:none"> <span style="align-self:center">minutes</span>
+      </div>
+      <div class="timer-display" id="timerView">25:00</div>
+      <div class="center">
+        <button onclick="startTimer()">Start</button>
+        <button class="alt" onclick="pauseTimer()">Pause</button>
+        <button class="alt" onclick="resetTimer()">Reset</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Stopwatch</h2>
+      <div class="timer-display" id="swView">00:00:00</div>
+      <div class="center">
+        <button onclick="swStart()">Start</button>
+        <button class="alt" onclick="swPause()">Pause</button>
+        <button class="alt" onclick="swReset()">Reset</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Quick notes</h2>
+      <textarea id="notes" placeholder="Write tasks or notes here. They are saved in this browser."></textarea>
+    </section>
+
+    <section>
+      <h2>Settings</h2>
+      <div class="row"><input id="orgInput" placeholder="Workspace name"><button class="alt" onclick="saveOrg()">Save</button></div>
+    </section>
+  </div>
 </main>
-<button class="fab" id="fab">+ New project</button>
-<nav class="tabs"><button data-t="work" class="on">Projects</button><button data-t="notes">Notes</button><button data-t="alarms">Alarms</button><button data-t="ai">Eddie</button></nav>
-<div class="wk" id="wk" hidden><i></i>Listening for "Hi Eddie"</div><div class="eb" id="eb" hidden role="status"></div>
-<div class="toast" id="toast" role="status"></div>
-<dialog id="al"><div class="alc"><div class="bell">&#9200;</div><h2 id="alt"></h2><p id="alw"></p><button class="pb" id="aok">Dismiss</button><button id="asn">Snooze 10 min</button></div></dialog>
-<dialog id="sh"><div class="f">
-<h2 id="st">New project</h2>
-<label>Project name<input id="sn" placeholder="e.g. Pharmacy POS" autocomplete="off"></label>
-<label>Client<input id="sc" placeholder="Client name" autocomplete="off"></label>
-<div class="g">Type<div class="ch" id="ty"></div></div>
-<div class="g">Priority<div class="ch" id="pr"></div></div>
-<label>Due date<input id="sd" type="date"></label>
-<label>Notes<textarea id="so" placeholder="Requirements, price, things to remember"></textarea></label>
-<div class="fb"><button class="pb" id="ssave" type="button">Save project</button><button id="scancel" type="button">Cancel</button><button class="del" id="sdel" type="button" hidden>Delete project</button></div>
-</div></dialog>
+
+<footer>Data is stored in your browser on this device.</footer>
+
 <script>
-const KEY='abd_workspace_v1',PORTFOLIO='https://claude.ai/artifact/Bu7Qb82QH5aSVKyU9NfqhT';
-const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-const esc=t=>String(t||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const uid=()=>Math.random().toString(36).slice(2,9);
-const ST={q:'Queue',d:'In progress',x:'Done'},TY=['POS','Website','Other'],PR=['Low','Medium','High'];
-let S={items:[],notes:[],alarms:[],pal:'ember',t:0},tab='work',view='q',editing=null,ref=null,timer,tt,F={};
-try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
-function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
-function sync(t){$('#sync').textContent=t}
-function push(){if(!ref)return;ref.set({json:JSON.stringify(S),t:S.t}).then(()=>sync('Synced to your account')).catch(()=>{})}
-function save(){S.t=Date.now();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}clearTimeout(timer);timer=setTimeout(push,800);if(!ref)sync('Saved on this phone')}
-function due(d){if(!d)return null;const n=Math.round((new Date(d+'T00:00:00')-new Date(new Date().toDateString()))/864e5);return n<0?['Overdue '+(-n)+'d',1]:n===0?['Due today',1]:['Due in '+n+'d',0]}
-function card(i,n,len){const d=due(i.due),pr=i.pri||'Medium';
-  return `<div class="it" data-id="${i.id}"><div class="r1"><b>${esc(i.name)}</b><span class="tag p-${pr}">${pr}</span></div>
-<div class="meta">${[i.client&&esc(i.client),i.type,d&&`<span class="${d[1]?'bad':''}">${d[0]}</span>`].filter(Boolean).join(' &middot; ')}</div>${i.note?`<p class="nt">${esc(i.note)}</p>`:''}
-<div class="acts">${i.st==='q'?'<button class="p" data-a="go" data-to="d">Start</button>':i.st==='d'?'<button class="p" data-a="go" data-to="x">Mark done</button><button data-a="go" data-to="q">Back to queue</button>':'<button class="p" data-a="go" data-to="q">Reopen</button>'}<button data-a="edit">Edit</button>${i.st!=='x'?`<span class="mv"><button data-a="up" aria-label="Move up" ${n?'':'disabled'}>&uarr;</button><button data-a="dn" aria-label="Move down" ${n<len-1?'':'disabled'}>&darr;</button></span>`:''}</div></div>`}
-function render(){
-  document.documentElement.dataset.pal=S.pal||'ember';
-  ['work','notes','alarms','ai'].forEach(k=>$('#'+k).hidden=tab!==k);$('#fab').hidden=tab!=='work';
-  $$('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
-  const cnt=k=>S.items.filter(i=>i.st===k).length,L=S.items.filter(i=>i.st===view);
-  $('#seg').innerHTML=Object.keys(ST).map(k=>`<button class="${k===view?'on':''}" data-v="${k}">${ST[k]} ${cnt(k)}</button>`).join('');
-  $('#list').innerHTML=L.length?L.map((i,n)=>card(i,n,L.length)).join(''):`<div class="empty">${view==='q'?'Your queue is empty. Tap New project to add one.':view==='d'?'No project in progress.':'No finished projects yet.'}</div>`;
-  const N=[...S.notes].sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.t-a.t);
-  $('#nlist').innerHTML=N.length?N.map(n=>`<div class="nt2 ${n.pin?'pin':''}" data-id="${n.id}"><div class="tx" contenteditable="true">${esc(n.text)}</div><div class="ft"><span>${new Date(n.t).toLocaleDateString([],{day:'numeric',month:'short'})} ${new Date(n.t).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span><button data-a="pin">${n.pin?'Pinned':'Pin'}</button><button data-a="del">Delete</button></div></div>`).join(''):'<div class="empty">No notes yet. Write your first one above.</div>';
+const $=id=>document.getElementById(id);
+const load=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const pad=n=>String(n).padStart(2,'0');
+
+/* Clock and date */
+function tick(){
+  const n=new Date();
+  $('time').textContent=n.toLocaleTimeString();
+  $('date').textContent=n.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 }
-$$('.tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render();scrollTo(0,0)});
-$('#work').addEventListener('click',e=>{const b=e.target.closest('[data-a],[data-v]');if(!b)return;
-  if(b.dataset.v){view=b.dataset.v;return render()}
-  const el=b.closest('.it'),i=el&&S.items.find(x=>x.id===el.dataset.id),a=b.dataset.a;if(!i)return;
-  if(a==='edit')return openSheet(i);
-  if(a==='go'){i.st=b.dataset.to;toast('Moved to '+ST[i.st]);save();render()}
-  else{const L=S.items.filter(x=>x.st===i.st),p=L.indexOf(i),q=L[a==='up'?p-1:p+1];if(!q)return;const x=S.items.indexOf(i),y=S.items.indexOf(q);[S.items[x],S.items[y]]=[S.items[y],S.items[x]];save();render()}
-});
-// project sheet
-const sh=$('#sh');
-function chips(){$('#ty').innerHTML=TY.map(t=>`<button type="button" class="${F.type===t?'on':''}" data-k="type" data-v="${t}">${t}</button>`).join('');$('#pr').innerHTML=PR.map(t=>`<button type="button" class="${F.pri===t?'on':''}" data-k="pri" data-v="${t}">${t}</button>`).join('')}
-function openSheet(i){editing=i||null;F=i?{type:i.type,pri:i.pri||'Medium'}:{type:'POS',pri:'Medium'};
-  $('#sn').value=i?i.name:'';$('#sc').value=i?i.client||'':'';$('#sd').value=i?i.due||'':'';$('#so').value=i?i.note||'':'';
-  $('#st').textContent=i?'Edit project':'New project';const d=$('#sdel');d.hidden=!i;d.textContent='Delete project';delete d.dataset.arm;chips();sh.showModal()}
-$('#fab').onclick=()=>openSheet();
-sh.addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(b){F[b.dataset.k]=b.dataset.v;chips();return}
-  if(e.target===sh){const r=sh.getBoundingClientRect();if(e.clientY<r.top)sh.close()}});
-$('#scancel').onclick=()=>sh.close();
-$('#ssave').onclick=()=>{const name=$('#sn').value.trim();if(!name){$('#sn').focus();return toast('Add a project name')}
-  const o={name,client:$('#sc').value.trim(),type:F.type,pri:F.pri,due:$('#sd').value,note:$('#so').value.trim()};
-  if(editing)Object.assign(editing,o);else{S.items.push({id:uid(),st:'q',...o});view='q'}
-  save();sh.close();render()};
-$('#sdel').onclick=function(){if(!this.dataset.arm){this.dataset.arm=1;this.textContent='Tap again to delete';setTimeout(()=>{delete this.dataset.arm;this.textContent='Delete project'},3000);return}
-  S.items=S.items.filter(x=>x!==editing);save();sh.close();render()};
-// notes
-$('#nadd').onclick=()=>{const t=$('#ntext').value.trim();if(!t)return;S.notes.push({id:uid(),text:t,pin:false,t:Date.now()});$('#ntext').value='';save();render()};
-$('#nlist').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const n=S.notes.find(x=>x.id===b.closest('.nt2').dataset.id);if(!n)return;
-  if(b.dataset.a==='pin'){n.pin=!n.pin;save();render()}
-  else{if(!b.dataset.arm){b.dataset.arm=1;b.textContent='Tap again';setTimeout(()=>{delete b.dataset.arm;b.textContent='Delete'},3000);return}S.notes=S.notes.filter(x=>x!==n);save();render()}});
-$('#nlist').addEventListener('focusout',e=>{const x=e.target.closest('.tx');if(!x)return;const n=S.notes.find(y=>y.id===x.closest('.nt2').dataset.id),t=x.innerText.trim();if(n&&t&&t!==n.text){n.text=t;save()}});
-// ---- theme, alarms, AI
-const PALS=['ember','aurora','orchid','ocean','citrus'];
-$('#pal').onclick=()=>{S.pal=PALS[(PALS.indexOf(S.pal)+1)%PALS.length];save();render();toast('Theme: '+S.pal[0].toUpperCase()+S.pal.slice(1))};
-const _r=render;render=function(){_r();renderAlarms()};
-const fmt=t=>new Date(t).toLocaleString([],{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-const lt=ms=>new Date(ms-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,16);
-const eta=at=>{const m=Math.max(0,Math.round((at-Date.now())/6e4));return m<60?'in '+m+' min':m<1440?'in '+Math.round(m/60)+' h':'in '+Math.round(m/1440)+' d'};
-const zt=t=>new Date(t).toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
-function addAlarm(title,at,kind){S.alarms.push({id:uid(),title:title||'Alarm',at,kind:kind||'',done:false});save();render()}
-function limitRem(t){if(t<=Date.now())return false;if(t-36e5>Date.now())addAlarm('Claude limit resets in 1 hour',t-36e5,'limit');addAlarm('Your Claude limit has reset',t,'limit');return true}
-function renderAlarms(){const L=[...S.alarms].sort((a,b)=>a.done-b.done||a.at-b.at);
-  $('#alist').innerHTML=L.length?L.map(a=>`<div class="it" data-id="${a.id}"><div class="r1"><b>${esc(a.title)}</b><span class="tag ${a.done?'p-Low':'p-Medium'}">${a.missed?'Missed':a.done?'Done':'Upcoming'}</span></div><div class="meta">${fmt(a.at)}${a.done?'':' &middot; '+eta(a.at)}</div><div class="acts">${a.done?'':`<a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(a.title)}&dates=${zt(a.at)}/${zt(a.at+9e5)}" target="_blank" rel="noopener">Add to Calendar</a>`}<button data-a="adel">Delete</button></div></div>`).join(''):'<div class="empty">No alarms yet. Set one above.</div>'}
-$('#aq').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;let t;if(b.dataset.m==='tom'){t=new Date();t.setDate(t.getDate()+1);t.setHours(9,0,0,0);t=t.getTime()}else t=Date.now()+b.dataset.m*6e4;$('#aw').value=lt(t)};
-$('#aadd').onclick=()=>{const v=$('#aw').value;if(!v)return toast('Pick a date and time');const t=new Date(v).getTime();if(t<=Date.now())return toast('Pick a time in the future');addAlarm($('#at').value.trim()||'Alarm',t);$('#at').value='';$('#aw').value='';toast('Alarm set')};
-$('#ladd').onclick=()=>{const v=$('#lw').value;if(!v)return toast('Enter the reset time shown in Claude');if(!limitRem(new Date(v).getTime()))return toast('That time has already passed');$('#lw').value='';toast('Limit reminders set')};
-$('#alist').addEventListener('click',e=>{const b=e.target.closest('[data-a="adel"]');if(!b)return;const id=b.closest('.it').dataset.id;S.alarms=S.alarms.filter(x=>x.id!==id);save();render()});
-let ac,beepT,ringing=null;
-function unlock(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume()}catch(e){}}
-addEventListener('pointerdown',unlock,{passive:true});
-function beep(){if(!ac)return;try{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=880;g.gain.value=.25;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+.25)}catch(e){}}
-function ring(a){ringing=a;$('#alt').textContent=a.title;$('#alw').textContent=fmt(a.at);$('#al').showModal();beep();clearInterval(beepT);beepT=setInterval(()=>{beep();if(navigator.vibrate)navigator.vibrate(300)},900)}
-$('#al').addEventListener('close',()=>{clearInterval(beepT);if(ringing&&ringing.at<=Date.now())ringing.done=true;ringing=null;save();render()});
-$('#aok').onclick=()=>$('#al').close();
-$('#asn').onclick=()=>{if(ringing)ringing.at=Date.now()+6e5;$('#al').close()};
-setInterval(()=>{if(ringing)return;const now=Date.now(),a=S.alarms.find(x=>!x.done&&x.at<=now);if(!a)return;if(now-a.at>36e5){a.done=true;a.missed=true;save();render()}else ring(a)},1000);
-// AI assistant
-let chat=[],busy=false;
-const TOOLS=[
-{name:'add_project',description:'Add a project to the queue',inputSchema:{type:'object',properties:{name:{type:'string'},client:{type:'string'},type:{type:'string',enum:TY},priority:{type:'string',enum:PR},due:{type:'string',description:'YYYY-MM-DD'},note:{type:'string'}},required:['name']},execute:i=>{S.items.push({id:uid(),st:'q',name:i.name,client:i.client||'',type:i.type||'Other',pri:i.priority||'Medium',due:i.due||'',note:i.note||''});save();render();return 'Added project '+i.name}},
-{name:'move_project',description:'Change a project status',inputSchema:{type:'object',properties:{name:{type:'string'},status:{type:'string',enum:['queue','in_progress','done']}},required:['name','status']},execute:i=>{const p=S.items.find(x=>x.name.toLowerCase().includes(i.name.toLowerCase()));if(!p)throw new Error('No such project');p.st={queue:'q',in_progress:'d',done:'x'}[i.status];save();render();return p.name+' is now '+ST[p.st]}},
-{name:'add_note',description:'Save a note',inputSchema:{type:'object',properties:{text:{type:'string'}},required:['text']},execute:i=>{S.notes.push({id:uid(),text:i.text,pin:false,t:Date.now()});save();render();return 'Note saved'}},
-{name:'set_alarm',description:'Set an alarm or reminder at a local date and time',inputSchema:{type:'object',properties:{title:{type:'string'},when:{type:'string',description:'Local date-time like 2026-10-06T09:00'}},required:['title','when']},execute:i=>{const t=new Date(i.when).getTime();if(!t||t<=Date.now())throw new Error('Time is invalid or in the past');addAlarm(i.title,t);return 'Alarm set for '+fmt(t)}},
-{name:'set_claude_limit_reminder',description:'Remind the user 1 hour before their Claude usage limit resets, and again at reset',inputSchema:{type:'object',properties:{reset:{type:'string',description:'Local date-time of the reset like 2026-10-06T18:30'}},required:['reset']},execute:i=>{if(!limitRem(new Date(i.reset).getTime()))throw new Error('Time is invalid or in the past');return 'Limit reminders set'}}];
-const CTX=()=>`You are Eddie, the AI assistant inside ABD's private workspace app. Your replies may be read aloud, so keep them short and plain, without markdown. ABD is a freelance developer who builds POS systems and e-commerce websites and has a telecom background. You can see everything he keeps in this app. Be brief, practical and friendly. When he asks you to add or change something, use the tools, then confirm in one short sentence. Work out dates relative to now. Now: ${new Date().toString()}.
-PROJECTS: ${JSON.stringify(S.items.map(i=>({name:i.name,client:i.client,type:i.type,priority:i.pri,due:i.due,status:ST[i.st],note:(i.note||'').slice(0,200)})))}
-NOTES: ${JSON.stringify(S.notes.map(n=>n.text.slice(0,300)))}
-ALARMS: ${JSON.stringify(S.alarms.filter(a=>!a.done).map(a=>({title:a.title,at:new Date(a.at).toString()})))}`;
-function draw(){$('#msgs').innerHTML=chat.map(m=>`<div class="bb ${m.role}">${esc(m.content)||'Thinking...'}</div>`).join('');if(tab==='ai')scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}
-async function ask(q){q=(q||$('#ain').value).trim();if(!q||busy)return;
-  if(!window.claude||!claude.use){chat.push({role:'user',content:q},{role:'assistant',content:'The assistant works when this page is opened from your Claude account.'});draw();return}
-  $('#ain').value='';chat.push({role:'user',content:q});const msg={role:'assistant',content:''};chat.push(msg);busy=true;draw();
-  try{const sm=await claude.use('sample');if(!sm)throw{code:'na'};
-    const h=chat.slice(0,-1).slice(-8);while(h.length&&h[0].role!=='user')h.shift();
-    const r=await sm([{role:'user',content:CTX()},{role:'assistant',content:'Understood.'},...h.map(m=>({role:m.role,content:m.content}))],{cache:false,tools:TOOLS,onText:({text})=>{msg.content=text;draw()}});
-    msg.content=(r&&r.text)||msg.content||'Done.'}
-  catch(e){msg.content=e&&e.code==='not_granted'?'Permission was declined. Tap send again and allow it.':e&&e.code==='na'?'The assistant is not available here.':'Sorry, something went wrong. Please try again.'}
-  busy=false;draw();return msg.content}
-$('#asend').onclick=()=>ask();
-$('#ain').addEventListener('keydown',e=>{if(e.key==='Enter')ask()});
-$('#aqk').onclick=e=>{const b=e.target.closest('button');if(b)ask(b.textContent)};
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rec=null,listening=false;
-$('#amic').onclick=()=>{if(wake)wsw.click();if(!SR)return toast('Use the microphone on your keyboard to dictate');if(listening&&rec){rec.stop();return}
-  rec=new SR();rec.lang=navigator.language||'en-US';rec.interimResults=true;rec.continuous=false;
-  rec.onresult=e=>{let t='';for(const r of e.results)t+=r[0].transcript;$('#ain').value=t;if(e.results[e.results.length-1].isFinal)ask()};
-  rec.onerror=()=>toast('Microphone is not available here. Use your keyboard mic.');
-  rec.onend=()=>{listening=false;$('#amic').classList.remove('on')};
-  try{rec.start();listening=true;$('#amic').classList.add('on')}catch(e){}};
-// "Hi Eddie" hands-free mode
-let wake=false,wrec=null,awaiting=0,speaking=false,eT;
-const WAKE=/\b(?:hi|hey|hello|ok|okay)\s+(?:eddie|eddy|edie)\b|\beddie\b/i,wsw=$('#wsw');
-function wui(){wsw.textContent=wake?'Turn off "Hi Eddie"':'Turn on "Hi Eddie"';$('#wk').hidden=!wake}
-function say(t){const b=$('#eb');b.textContent=t;b.hidden=false;clearTimeout(eT);eT=setTimeout(()=>b.hidden=true,14000);
-  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.slice(0,500));speaking=true;u.onend=u.onerror=()=>setTimeout(()=>speaking=false,600);speechSynthesis.speak(u)}catch(e){speaking=false}}
-$('#eb').onclick=()=>$('#eb').hidden=true;
-async function heard(cmd){if(!cmd){awaiting=Date.now()+8000;say('Yes?');return}const r=await ask(cmd);if(r)say(r)}
-function listen(){if(!wake)return;wrec=new SR();wrec.lang=navigator.language||'en-US';wrec.continuous=true;wrec.interimResults=false;
-  wrec.onresult=e=>{if(speaking||busy)return;const r=e.results[e.results.length-1];if(!r.isFinal)return;const t=r[0].transcript.trim();
-    if(awaiting&&Date.now()<awaiting){awaiting=0;return heard(t)}
-    const m=t.match(WAKE);if(m)heard(t.slice(m.index+m[0].length).replace(/^[\s,.:!-]+/,''))};
-  wrec.onerror=ev=>{if(/not-allowed|service-not-allowed/.test(ev.error)){wake=false;wui();toast('Microphone is blocked here. Use your keyboard mic instead.')}};
-  wrec.onend=()=>{if(wake)setTimeout(listen,400)};
-  try{wrec.start()}catch(e){}}
-wsw.onclick=()=>{if(wake){wake=false;try{wrec&&wrec.stop()}catch(e){}wui();return}
-  if(!SR)return toast('Voice listening is not supported in this browser. Use your keyboard mic.');
-  wake=true;wui();listen();toast('Say "Hi Eddie" and then your request')};
-$('#wk').onclick=()=>wsw.click();
-// share portfolio
-$('#share').onclick=async()=>{try{if(navigator.share){await navigator.share({title:'ABD DEVOLOPs portfolio',url:PORTFOLIO});return}}catch(e){if(e&&e.name==='AbortError')return}
-  try{await navigator.clipboard.writeText(PORTFOLIO);toast('Portfolio link copied')}catch(e){toast(PORTFOLIO)}};
+tick();setInterval(tick,1000);
+
+/* Projects */
+let projects=load('projects',[]);
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function safeLink(u){return /^https?:\/\//i.test(u)?u:(u?'https://'+u:'')}
+function render(){
+  $('projects').innerHTML=projects.map((p,i)=>`<tr>
+    <td>${esc(p.name)}</td><td>${esc(p.client||'-')}</td>
+    <td><span class="tag ${p.status==='Completed'?'Completed':p.status==='Pending'?'Pending':''}">${esc(p.status)}</span></td>
+    <td>${esc(p.date)}</td>
+    <td>${p.link?`<a href="${esc(safeLink(p.link))}" target="_blank" rel="noopener">Open</a>`:'-'}</td>
+    <td><button class="del" onclick="delProject(${i})">Delete</button></td></tr>`).join('');
+  $('empty').style.display=projects.length?'none':'block';
+}
+function addProject(){
+  const name=$('pName').value.trim();
+  if(!name){$('pName').focus();return}
+  projects.push({name,client:$('pClient').value.trim(),link:$('pLink').value.trim(),status:$('pStatus').value,date:new Date().toLocaleDateString()});
+  save('projects',projects);
+  ['pName','pClient','pLink'].forEach(i=>$(i).value='');
+  render();
+}
+function delProject(i){projects.splice(i,1);save('projects',projects);render()}
 render();
-// account sync (runs only when available)
-(async()=>{try{if(!window.claude||!claude.use)return;
-  const db=await claude.use('db'),user=await claude.use('user');if(!db||!user)return;
-  const id=await user.id();if(!id)return;
-  ref=db.collection('data/users/'+id).doc('workspace');
-  const snap=await ref.get();
-  if(snap.exists){const d=snap.data(),r=JSON.parse(d.json);
-    if((d.t||0)>(S.t||0)){S=Object.assign({items:[],notes:[],alarms:[],pal:'ember',t:d.t},r);try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}render();sync('Synced to your account')}
-    else if((S.t||0)>(d.t||0))push();else sync('Synced to your account')}
-  else if(S.items.length||S.notes.length)push();else sync('Synced to your account');
-}catch(e){}})();
+
+/* Countdown timer */
+let tLeft=25*60,tId=null;
+function showT(){$('timerView').textContent=pad(Math.floor(tLeft/60))+':'+pad(tLeft%60)}
+function startTimer(){
+  if(tId)return;
+  if(tLeft<=0||!tId&&$('timerView').dataset.fresh!=='0'){}
+  tId=setInterval(()=>{
+    tLeft--;showT();
+    if(tLeft<=0){clearInterval(tId);tId=null;alert('Time is up.')}
+  },1000);
+}
+function pauseTimer(){clearInterval(tId);tId=null}
+function resetTimer(){pauseTimer();tLeft=Math.max(1,parseInt($('mins').value)||25)*60;showT()}
+$('mins').addEventListener('change',resetTimer);
+
+/* Stopwatch */
+let sw=0,swId=null;
+function showSw(){$('swView').textContent=pad(Math.floor(sw/3600))+':'+pad(Math.floor(sw%3600/60))+':'+pad(sw%60)}
+function swStart(){if(!swId)swId=setInterval(()=>{sw++;showSw()},1000)}
+function swPause(){clearInterval(swId);swId=null}
+function swReset(){swPause();sw=0;showSw()}
+
+/* Notes and settings */
+$('notes').value=load('notes','');
+$('notes').addEventListener('input',e=>save('notes',e.target.value));
+function saveOrg(){const v=$('orgInput').value.trim();if(v){save('org',v);$('orgName').textContent=v;document.title=v;$('orgInput').value=''}}
+const org=load('org','');if(org){$('orgName').textContent=org;document.title=org}
+/* Folders */
+const tree={
+ '01_Websites':['Active_Projects','Completed_Projects','Templates'],
+ '02_Clients':['Client_Name_1 / Contracts','Client_Name_1 / Project_Files','Client_Name_1 / Invoices'],
+ '03_My_Files':['Personal','Certificates','CV_Resume'],
+ '04_Documents':['Contracts','Invoices','Notes'],
+ '05_Design_Assets':['Logos','Images','Fonts'],
+ '06_Reports':['Monthly','Planning'],
+ '07_Learning':['Courses','Tutorials'],
+ '08_Archive':['Finished projects']
+};
+const desc={'01_Websites':'Website projects','02_Clients':'Client files','03_My_Files':'Personal files','04_Documents':'Contracts, invoices, notes','05_Design_Assets':'Logos, images, fonts','06_Reports':'Reports and planning','07_Learning':'Courses and tutorials','08_Archive':'Finished projects'};
+$('folders').innerHTML=Object.keys(tree).map(k=>`<div class="folder" tabindex="0" role="button" data-k="${k}"><b>${k}</b><span>${desc[k]}</span></div>`).join('');
+function openFolder(el){
+  document.querySelectorAll('.folder').forEach(f=>f.classList.remove('active'));
+  el.classList.add('active');
+  const k=el.dataset.k;
+  $('subs').innerHTML='<b>'+k+'</b><ul>'+tree[k].map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+}
+document.querySelectorAll('.folder').forEach(f=>{
+  f.addEventListener('click',()=>openFolder(f));
+  f.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openFolder(f)}});
+});
+
+/* Hosting and domains */
+let hosts=load('hosts',[]);
+function daysLeft(d){if(!d)return '';const n=Math.ceil((new Date(d)-new Date())/86400000);return n<0?'Expired':n+' days left'}
+function renderHosts(){
+  $('hosts').innerHTML=hosts.map((h,i)=>{
+    const dl=daysLeft(h.renew);
+    return `<tr><td><span class="tag">${esc(h.type)}</span></td><td>${esc(h.name)}</td><td>${esc(h.provider||'-')}</td>
+    <td>${h.renew?esc(h.renew)+'<br><small style="color:var(--muted)">'+dl+'</small>':'-'}</td>
+    <td>${h.link?`<a href="${esc(safeLink(h.link))}" target="_blank" rel="noopener">Open</a>`:'-'}</td>
+    <td><button class="del" onclick="delHost(${i})">Delete</button></td></tr>`}).join('');
+  $('hEmpty').style.display=hosts.length?'none':'block';
+}
+function addHost(){
+  const name=$('hName').value.trim();
+  if(!name){$('hName').focus();return}
+  hosts.push({type:$('hType').value,name,provider:$('hProvider').value.trim(),link:$('hLink').value.trim(),renew:$('hRenew').value});
+  save('hosts',hosts);
+  ['hName','hProvider','hLink','hRenew'].forEach(i=>$(i).value='');
+  renderHosts();
+}
+function delHost(i){hosts.splice(i,1);save('hosts',hosts);renderHosts()}
+renderHosts();
 </script>
 </body>
 </html>
